@@ -1,12 +1,9 @@
 return {
   {
-    'catppuccin/nvim',
-    name = 'catppuccin',
+    'rebelot/kanagawa.nvim',
     priority = 1000,
     init = function()
-      vim.cmd.colorscheme 'catppuccin-mocha'
-      -- You can configure highlights by doing something like:
-      vim.cmd.hi 'Comment gui=none'
+      vim.cmd.colorscheme 'kanagawa-wave'
     end,
   },
   {
@@ -19,5 +16,11 @@ return {
       vim.keymap.set('v', '<leader>ogh', ':OpenInGHFileLines+<CR>', { desc = 'Copy [O]pen on [G]it[H]ub url' })
     end,
   },
+  -- git stuff
   { 'tpope/vim-fugitive' },
+  { 'sindrets/diffview.nvim' },
+  -- database stuff
+  { 'tpope/vim-dadbod' },
+  { 'kristijanhusak/vim-dadbod-ui' },
+  { 'kristijanhusak/vim-dadbod-completion' },
 }

@@ -71,6 +71,7 @@ vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 vim.o.tabstop = 4
+vim.o.shiftwidth = 4
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
@@ -168,11 +169,12 @@ require('lazy').setup({
     'lewis6991/gitsigns.nvim',
     opts = {
       signs = {
-        add = { text = '+' },
-        change = { text = '~' },
+        add = { text = '┃' },
+        change = { text = '┃' },
         delete = { text = '_' },
         topdelete = { text = '‾' },
         changedelete = { text = '~' },
+        untracked = { text = '┆' },
       },
     },
   },
@@ -395,24 +397,6 @@ require('lazy').setup({
       -- If you're wondering about lsp vs treesitter, you can check out the wonderfully
       -- and elegantly composed help section, `:help lsp-vs-treesitter`
 
-      require('lspconfig').rust_analyzer.setup {
-        settings = {
-          ['rust-analyzer'] = {
-            checkOnSave = {
-              command = 'clippy',
-              extraArgs = {
-                '--',
-                '--no-deps',
-                '-Dclippy::correctness',
-                '-Dclippy::complexity',
-                '-Wclippy::perf',
-                '-Wclippy::pedantic',
-              },
-            },
-          },
-        },
-      }
-
       --  This function gets run when an LSP attaches to a particular buffer.
       --    That is to say, every time a new file is opened that is associated with
       --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
@@ -539,7 +523,25 @@ require('lazy').setup({
         -- clangd = {},
         -- gopls = {},
         -- pyright = {},
-        rust_analyzer = {},
+        rust_analyzer = {
+          settings = {
+            ['rust-analyzer'] = {
+              checkOnSave = {
+                enable = true,
+                command = 'clippy',
+                extraArgs = {
+                  '--',
+                  '--no-deps',
+                  '-Dclippy::correctness',
+                  '-Dclippy::complexity',
+                  '-Wclippy::perf',
+                  '-Wclippy::pedantic',
+                },
+              },
+            },
+          },
+        },
+        tailwindcss = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -603,10 +605,10 @@ require('lazy').setup({
       {
         '<leader>f',
         function()
-          require('conform').format { async = true, lsp_fallback = true }
           if vim.bo.filetype == 'rust' then
             require('custom/scripts/sql_rust_magic').format_dat_sql()
           end
+          require('conform').format { async = true, lsp_fallback = true }
         end,
         mode = '',
         desc = '[F]ormat buffer',
@@ -614,11 +616,18 @@ require('lazy').setup({
     },
     config = function()
       local conform = require 'conform'
-      conform.formatters.rustfmt = {
-        prepend_args = { '+nightly' },
-      }
       conform.setup {
-        notify_on_error = false,
+        notify_on_error = true,
+        formatters = {
+          rustfmt = {
+            prepend_args = { '+nightly' },
+          },
+          customsql = {
+            inherit = false,
+            command = 'sql-formatter',
+            args = { '-c', '.sql_formatter.json', '$FILENAME' },
+          },
+        },
         formatters_by_ft = {
           lua = { 'stylua' },
           -- Conform can also run multiple formatters sequentially
@@ -630,7 +639,7 @@ require('lazy').setup({
           json = { 'fixjson' },
           typescript = { 'prettier' },
           rust = { 'rustfmt' },
-          sql = { 'sqlfmt' },
+          sql = { 'customsql' },
           svg = { 'xmllint' },
           xml = { 'xmllint' },
         },
@@ -746,6 +755,13 @@ require('lazy').setup({
           { name = 'path' },
         },
       }
+
+      cmp.setup.filetype({ 'sql' }, {
+        sources = {
+          { name = 'vim-dadbod-completion' },
+          { name = 'buffer' },
+        },
+      })
     end,
   },
   -- Highlight todo, notes, etc in comments
@@ -829,7 +845,7 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter-context',
     opts = {
       enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-      max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+      max_lines = 5, -- How many lines the window should span. Values <= 0 mean no limit.
       min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
       line_numbers = true,
       multiline_threshold = 20, -- Maximum number of lines to show for a single context
