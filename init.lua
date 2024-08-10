@@ -423,8 +423,21 @@ require('lazy').setup({
           --  To jump back, press <C-t>.
           map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
           map('gs', function()
-            require('telescope.builtin').lsp_definitions { jump_type = 'vsplit' }
-          end, '[G]oto definition in [S]ide')
+            local curr_buf = vim.api.nvim_get_current_buf()
+            local cursor = vim.api.nvim_win_get_cursor(0)
+            vim.cmd 'wincmd l'
+            vim.api.nvim_set_current_buf(curr_buf)
+            vim.api.nvim_win_set_cursor(0, cursor)
+            require('telescope.builtin').lsp_definitions {}
+          end, '[G]oto definition in [S]ide Right')
+          map('gS', function()
+            local curr_buf = vim.api.nvim_get_current_buf()
+            local cursor = vim.api.nvim_win_get_cursor(0)
+            vim.cmd 'wincmd h'
+            vim.api.nvim_set_current_buf(curr_buf)
+            vim.api.nvim_win_set_cursor(0, cursor)
+            require('telescope.builtin').lsp_definitions {}
+          end, '[G]oto definition in [S]ide Left')
 
           -- Find references for the word under your cursor.
           map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
@@ -789,25 +802,19 @@ require('lazy').setup({
       require('mini.sessions').setup {
         autoread = true,
       }
-
-      -- Simple and easy statusline.
-      --  You could remove this setup call if you don't like it,
-      --  and try some other statusline plugin
-      local statusline = require 'mini.statusline'
-      -- set use_icons to true if you have a Nerd Font
-      statusline.setup { use_icons = vim.g.have_nerd_font }
-
-      -- You can configure sections in the statusline by overriding their
-      -- default behavior. For example, here we set the section for
-      -- cursor location to LINE:COLUMN
-      ---@diagnostic disable-next-line: duplicate-set-field
-      statusline.section_location = function()
-        return '%2l:%-2v'
-      end
-
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
+  },
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    opts = {
+      options = {
+        theme = 'onedark',
+        disabled_filetypes = { 'neo-tree' },
+      },
+    },
   },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
