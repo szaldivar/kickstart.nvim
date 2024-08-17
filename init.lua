@@ -814,6 +814,32 @@ require('lazy').setup({
         theme = 'onedark',
         disabled_filetypes = { 'neo-tree' },
       },
+      sections = {
+        lualine_c = {
+          {
+            'filename',
+            path = 1,
+            fmt = function(str)
+              local parent_dir = vim.fn.fnamemodify(str, ':h:t')
+              local filename = vim.fn.fnamemodify(str, ':t')
+              return parent_dir .. '/' .. filename
+            end,
+          },
+        },
+      },
+      inactive_sections = {
+        lualine_c = {
+          {
+            'filename',
+            path = 1,
+            fmt = function(str)
+              local parent_dir = vim.fn.fnamemodify(str, ':h:t')
+              local filename = vim.fn.fnamemodify(str, ':t')
+              return parent_dir .. '/' .. filename
+            end,
+          },
+        },
+      },
     },
   },
   { -- Highlight, edit, and navigate code
