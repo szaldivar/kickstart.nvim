@@ -796,7 +796,20 @@ require('lazy').setup({
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup()
+      require('mini.surround').setup {
+        mappings = {
+          add = 'ra', -- Add surrounding in Normal and Visual modes
+          delete = 'rd', -- Delete surrounding
+          find = 'rf', -- Find surrounding (to the right)
+          find_left = 'rF', -- Find surrounding (to the left)
+          highlight = 'rh', -- Highlight surrounding
+          replace = 'rr', -- Replace surrounding
+          update_n_lines = 'rn', -- Update `n_lines`
+
+          suffix_last = 'l', -- Suffix to search with "prev" method
+          suffix_next = 'n', -- Suffix to search with "next" method
+        },
+      }
 
       -- Session management
       require('mini.sessions').setup {
@@ -811,7 +824,7 @@ require('lazy').setup({
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     opts = {
       options = {
-        theme = 'onedark',
+        theme = 'tokyonight',
         disabled_filetypes = { 'neo-tree' },
       },
       sections = {
