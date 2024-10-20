@@ -27,7 +27,14 @@ return {
   },
   -- git stuff
   { 'tpope/vim-fugitive' },
-  { 'sindrets/diffview.nvim' },
+  {
+    'sindrets/diffview.nvim',
+    init = function()
+      vim.keymap.set('n', '<leader>go', function()
+        vim.cmd 'DiffviewOpen'
+      end)
+    end,
+  },
   -- database stuff
   { 'tpope/vim-dadbod' },
   { 'kristijanhusak/vim-dadbod-ui' },
