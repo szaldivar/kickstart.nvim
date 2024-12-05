@@ -74,6 +74,7 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
+vim.o.wrap = false
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
@@ -88,6 +89,17 @@ end, { desc = 'Spell [C]heck' })
 vim.keymap.set('v', '<leader>za', function()
   require('custom/scripts/cspell_add').add_visual_to_words(true)
 end, { desc = 'Spell [A]dd word' })
+
+-- for oil.nvim
+function _G.get_oil_winbar()
+  local dir = require('oil').get_current_dir()
+  if dir then
+    return vim.fn.fnamemodify(dir, ':~')
+  else
+    -- If there is no current directory (e.g. over ssh), just show the buffer name
+    return vim.api.nvim_buf_get_name(0)
+  end
+end
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -828,7 +840,7 @@ require('lazy').setup({
     opts = {
       options = {
         theme = 'tokyonight',
-        disabled_filetypes = { 'neo-tree' },
+        disabled_filetypes = { 'neo-tree', 'oil' },
       },
       sections = {
         lualine_c = {
@@ -921,7 +933,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
-  require 'kickstart.plugins.neo-tree',
+  -- require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`

@@ -100,7 +100,7 @@ return {
         },
         -- you can enable a preset for easier configuration
         presets = {
-          bottom_search = true, -- use a classic bottom cmdline for search
+          bottom_search = false,
           command_palette = true, -- position the cmdline and popupmenu together
           long_message_to_split = true, -- long messages will be sent to a split
           inc_rename = false, -- enables an input dialog for inc-rename.nvim
@@ -108,5 +108,36 @@ return {
         },
       }
     end,
+  },
+  {
+    'stevearc/oil.nvim',
+    config = function()
+      local detail = false
+      require('oil').setup {
+        keymaps = {
+          ['<C-h>'] = false,
+          ['<C-l>'] = false,
+          ['gd'] = {
+            desc = 'Toggle file detail view',
+            callback = function()
+              detail = not detail
+              if detail then
+                require('oil').set_columns { 'icon', 'permissions', 'size', 'mtime' }
+              else
+                require('oil').set_columns { 'icon' }
+              end
+            end,
+          },
+        },
+        win_options = {
+          winbar = '%!v:lua.get_oil_winbar()',
+        },
+      }
+
+      vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
+    end,
+    -- Optional dependencies
+    dependencies = { { 'echasnovski/mini.icons', opts = {} } },
+    -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
   },
 }
