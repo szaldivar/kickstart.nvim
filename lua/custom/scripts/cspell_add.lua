@@ -1,9 +1,8 @@
-local a = require 'plenary.async'
-
 local M = {}
 
 M.add_visual_to_words = function(lint_after)
   lint_after = lint_after or false
+  local a = require 'plenary.async'
   local p = require 'plenary.path'
   local mode = vim.api.nvim_get_mode().mode
   if mode ~= 'v' then
