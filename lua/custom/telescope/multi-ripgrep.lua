@@ -15,9 +15,7 @@ return function(opts)
 
   local custom_grep = finders.new_async_job {
     command_generator = function(prompt)
-      if not prompt or prompt == '' then
-        return nil
-      end
+      if not prompt or prompt == '' then return nil end
 
       local prompt_split = vim.split(prompt, '  ')
 

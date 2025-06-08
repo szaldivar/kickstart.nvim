@@ -60,9 +60,7 @@ return {
         callback = function(event)
           -- don't do semantic highlights for string so our injections work
           -- (aka highlight SQL inside sqlx queries)
-          if vim.bo.filetype == 'rust' then
-            vim.api.nvim_set_hl(0, '@lsp.type.string', {})
-          end
+          if vim.bo.filetype == 'rust' then vim.api.nvim_set_hl(0, '@lsp.type.string', {}) end
 
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
@@ -93,18 +91,14 @@ return {
             })
           end
 
-          local map = function(keys, func, desc)
-            vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
-          end
+          local map = function(keys, func, desc) vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc }) end
 
           -- The following autocommand is used to enable inlay hints in your
           -- code, if the language server you are using supports them
           --
           -- This may be unwanted, since they displace some of your code
           if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
-            map('<leader>th', function()
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-            end, '[T]oggle Inlay [H]ints')
+            map('<leader>th', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end, '[T]oggle Inlay [H]ints')
           end
         end,
       })

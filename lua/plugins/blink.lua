@@ -8,13 +8,11 @@ return {
       local blink = require 'blink-cmp'
       ---@type blink.cmp.PrebuiltBinariesConfigPartial?
       local prebuilt_binaries = nil
-      if vim.g.sz_nvim_is_work then
-        prebuilt_binaries = {
-          proxy = {
-            url = vim.g.sz_nvim_http_proxy,
-          },
-        }
-      end
+      if vim.g.sz_nvim_is_work then prebuilt_binaries = {
+        proxy = {
+          url = vim.g.sz_nvim_http_proxy,
+        },
+      } end
       blink.setup {
         keymap = { preset = 'default' },
         appearance = {

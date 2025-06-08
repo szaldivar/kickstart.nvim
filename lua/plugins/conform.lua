@@ -6,9 +6,7 @@ return {
       {
         '<leader>f',
         function()
-          if vim.bo.filetype == 'rust' then
-            require('custom/scripts/sql_rust_magic').format_dat_sql()
-          end
+          if vim.bo.filetype == 'rust' then require('custom/scripts/sql_rust_magic').format_dat_sql() end
           require('conform').format { async = true, lsp_fallback = true }
         end,
         mode = '',

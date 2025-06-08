@@ -47,8 +47,6 @@ return {
         },
       },
     },
-    init = function()
-      vim.cmd.colorscheme 'catppuccin-macchiato'
-    end,
+    init = function() vim.cmd.colorscheme 'catppuccin-macchiato' end,
   },
 }

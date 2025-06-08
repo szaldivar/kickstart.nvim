@@ -55,9 +55,7 @@ local get_executable_name = function()
   local root = tree:root()
   for id, node in find_executable_query:iter_captures(root, cmake_buf, 0, -1) do
     local name = find_executable_query.captures[id]
-    if name == 'second_arg' then
-      return vim.treesitter.get_node_text(node, cmake_buf)
-    end
+    if name == 'second_arg' then return vim.treesitter.get_node_text(node, cmake_buf) end
   end
   return -1
 end
@@ -82,9 +80,7 @@ local compile_tests = function(test_binary_name, callback)
     env = { BUILD_INFO_DUMMY = '1' },
     on_exit = function(job_id, exit_code)
       should_keep = false
-      if job_id == compile_job_id then
-        compile_job_id = nil
-      end
+      if job_id == compile_job_id then compile_job_id = nil end
       if exit_code ~= 0 then
         vim.notify('Compilation error', vim.log.levels.ERROR)
         return
@@ -98,9 +94,7 @@ local compile_tests = function(test_binary_name, callback)
             replace_with = vim.notify(line, vim.log.levels.INFO, {
               title = 'Compiling ' .. test_binary_name,
               replace = replace_with,
-              keep = function()
-                return should_keep
-              end,
+              keep = function() return should_keep end,
               max_width = 40,
               render = 'wrapped-compact',
             })
@@ -179,14 +173,10 @@ local run_test = function(binary_name, fixture_name, unit_name, is_parameterised
   local test_dir = vim.fn.getcwd() .. '/build/debug/unit_test/'
   local command = test_dir .. binary_name
   local filter = '--gtest_filter=' .. fixture_name .. '.' .. unit_name
-  if is_parameterised then
-    filter = filter .. '/*'
-  end
+  if is_parameterised then filter = filter .. '/*' end
   local output_file = test_dir .. binary_name .. '.results.json'
   local output_file_h = p:new(output_file)
-  if output_file_h:exists() then
-    output_file_h:rm { recursive = false }
-  end
+  if output_file_h:exists() then output_file_h:rm { recursive = false } end
   local output = '--gtest_output=json:' .. output_file
   vim.notify('Running tests', vim.log.levels.INFO)
   vim.fn.jobstart({ command, filter, output }, {
@@ -204,9 +194,7 @@ end
 
 local get_filter = function(fixture_name, unit_name, is_parameterised)
   local filter = '--gtest_filter=' .. fixture_name .. '.' .. unit_name
-  if is_parameterised then
-    filter = filter .. '/*'
-  end
+  if is_parameterised then filter = filter .. '/*' end
   return filter
 end
 
@@ -276,20 +264,14 @@ M.run_unit_test = function(run_fixture)
   vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
   vim.diagnostic.reset(ns, bufnr)
   local error, fixture, test, type_of_test = get_test_info(bufnr)
-  if error then
-    return
-  end
+  if error then return end
   local exec = get_executable_name()
   if exec == -1 then
     vim.notify('Could not find executable name', vim.log.levels.ERROR)
     return
   end
-  if run_fixture then
-    test = '*'
-  end
-  compile_tests(exec, function()
-    run_test(exec, fixture, test, type_of_test == 'TEST_P', bufnr)
-  end)
+  if run_fixture then test = '*' end
+  compile_tests(exec, function() run_test(exec, fixture, test, type_of_test == 'TEST_P', bufnr) end)
 end
 
 M.debug_unit_test = function()
@@ -301,25 +283,19 @@ M.debug_unit_test = function()
   end
 
   local error, fixture, test, type_of_test = get_test_info(bufnr)
-  if error then
-    return
-  end
+  if error then return end
   local exec = get_executable_name()
   if exec == -1 then
     vim.notify('Could not find executable name', vim.log.levels.ERROR)
     return
   end
-  compile_tests(exec, function()
-    debug_test(exec, get_filter(fixture, test, type_of_test == 'TEST_P'))
-  end)
+  compile_tests(exec, function() debug_test(exec, get_filter(fixture, test, type_of_test == 'TEST_P')) end)
 end
 
 M.view_test_output = function()
   local bufnr = vim.api.nvim_get_current_buf()
   local error, fixture, test, type_of_test = get_test_info(bufnr)
-  if error then
-    return
-  end
+  if error then return end
   local test_line = test_name_to_line[test]
   local failed = failed_state[test_line]
   if failed == nil then

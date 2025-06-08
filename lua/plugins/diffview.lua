@@ -14,9 +14,7 @@ return {
             {
               'n',
               '<leader>gc',
-              function()
-                vim.cmd 'tabclose'
-              end,
+              function() vim.cmd 'tabclose' end,
               { desc = 'close diffview tab' },
             },
             {
@@ -36,9 +34,7 @@ return {
             {
               'n',
               '<leader>gc',
-              function()
-                vim.cmd 'tabclose'
-              end,
+              function() vim.cmd 'tabclose' end,
               { desc = 'close diffview tab' },
             },
           },
@@ -49,17 +45,11 @@ return {
       wk.add { '<leader>g', group = 'Git' }
       wk.add { '<leader>gf', group = 'File' }
 
-      vim.keymap.set('n', '<leader>go', function()
-        vim.cmd 'DiffviewOpen'
-      end, { desc = 'Open diff' })
+      vim.keymap.set('n', '<leader>go', function() vim.cmd 'DiffviewOpen' end, { desc = 'Open diff' })
 
-      vim.keymap.set('n', '<leader>gh', function()
-        vim.cmd 'DiffviewFileHistory'
-      end, { desc = 'Open history' })
+      vim.keymap.set('n', '<leader>gh', function() vim.cmd 'DiffviewFileHistory' end, { desc = 'Open history' })
 
-      vim.keymap.set('n', '<leader>gfh', function()
-        vim.cmd 'DiffviewFileHistory %'
-      end, { desc = 'Open history' })
+      vim.keymap.set('n', '<leader>gfh', function() vim.cmd 'DiffviewFileHistory %' end, { desc = 'Open history' })
 
       local function open_diff_from_blame()
         local lnum = vim.api.nvim_win_get_cursor(0)[1]

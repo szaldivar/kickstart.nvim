@@ -3,14 +3,10 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 local env = os.getenv 'NVIM_SZ_ENVIRONMENT'
-if not env or env == '' then
-  vim.notify('env var NVIM_SZ_ENVIRONMENT should be set', 'error')
-end
+if not env or env == '' then vim.notify('env var NVIM_SZ_ENVIRONMENT should be set', 'error') end
 vim.g.sz_nvim_is_work = env == 'WORK'
 
-if vim.g.sz_nvim_is_work then
-  vim.g.sz_nvim_http_proxy = os.getenv 'NVIM_SZ_HTTP_PROXY'
-end
+if vim.g.sz_nvim_is_work then vim.g.sz_nvim_http_proxy = os.getenv 'NVIM_SZ_HTTP_PROXY' end
 
 vim.opt.termguicolors = true
 
@@ -103,9 +99,7 @@ vim.api.nvim_create_augroup('TerminalNoSpell', { clear = true })
 vim.api.nvim_create_autocmd('TermOpen', {
   group = 'TerminalNoSpell',
   pattern = '*',
-  callback = function()
-    vim.opt_local.spell = false
-  end,
+  callback = function() vim.opt_local.spell = false end,
 })
 
 -- folding
@@ -119,30 +113,18 @@ vim.opt.foldcolumn = '0'
 vim.opt.fillchars:append { fold = ' ' }
 
 -- Diagnostic keymaps
-vim.keymap.set('n', ']d', function()
-  vim.diagnostic.jump { count = 1 }
-end, { desc = 'Go to previous [D]iagnostic message' })
-vim.keymap.set('n', '[d', function()
-  vim.diagnostic.jump { count = -1 }
-end, { desc = 'Go to next [D]iagnostic message' })
+vim.keymap.set('n', ']d', function() vim.diagnostic.jump { count = 1 } end, { desc = 'Go to previous [D]iagnostic message' })
+vim.keymap.set('n', '[d', function() vim.diagnostic.jump { count = -1 } end, { desc = 'Go to next [D]iagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 -- spell check
-vim.keymap.set('n', '<leader>zc', function()
-  require('lint').try_lint 'cspell'
-end, { desc = 'Spell [C]heck' })
-vim.keymap.set('v', '<leader>za', function()
-  require('custom/scripts/cspell_add').add_visual_to_words(true)
-end, { desc = 'Spell [A]dd word' })
+vim.keymap.set('n', '<leader>zc', function() require('lint').try_lint 'cspell' end, { desc = 'Spell [C]heck' })
+vim.keymap.set('v', '<leader>za', function() require('custom/scripts/cspell_add').add_visual_to_words(true) end, { desc = 'Spell [A]dd word' })
 
 -- quickfix navigation
-vim.keymap.set('n', '<M-n>', function()
-  vim.cmd 'cnext'
-end, { desc = 'Go to next item in quickfix list' })
-vim.keymap.set('n', '<M-p>', function()
-  vim.cmd 'cprev'
-end, { desc = 'Go to previous item in quickfix list' })
+vim.keymap.set('n', '<M-n>', function() vim.cmd 'cnext' end, { desc = 'Go to next item in quickfix list' })
+vim.keymap.set('n', '<M-p>', function() vim.cmd 'cprev' end, { desc = 'Go to previous item in quickfix list' })
 
 -- for oil.nvim
 function _G.get_oil_winbar()
@@ -177,9 +159,7 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
-  callback = function()
-    vim.hl.on_yank()
-  end,
+  callback = function() vim.hl.on_yank() end,
 })
 
 require 'config.lazy'

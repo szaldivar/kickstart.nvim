@@ -39,9 +39,7 @@ M.add_visual_to_words = function(lint_after)
     table.insert(json_table.words, word[1])
     local json_str = vim.json.encode(json_table)
     cspell_file:write(json_str, 'w')
-    if lint_after then
-      require('lint').try_lint 'cspell'
-    end
+    if lint_after then require('lint').try_lint 'cspell' end
   end, function() end)
 end
 

@@ -9,11 +9,9 @@ return {
       local octo = require 'octo'
 
       local gh_env = nil
-      if vim.g.sz_nvim_is_work then
-        gh_env = {
-          HTTPS_PROXY = vim.g.sz_nvim_http_proxy,
-        }
-      end
+      if vim.g.sz_nvim_is_work then gh_env = {
+        HTTPS_PROXY = vim.g.sz_nvim_http_proxy,
+      } end
 
       octo.setup {
         use_local_fs = true,
