@@ -6,6 +6,6 @@ vim.keymap.set('n', '<leader>rd', function() require('custom/scripts/cpp_test_ru
 vim.keymap.set(
   'n',
   '<leader>a',
-  function() require('custom/scripts/switch_source_header').switch_source_header(vim.api.nvim_get_current_buf()) end,
+  function() require('custom/scripts/cpp_switch_header').switch_source_header(vim.api.nvim_get_current_buf()) end,
   { desc = 'Switch header/source (with _impl.h fallback)' }
 )
