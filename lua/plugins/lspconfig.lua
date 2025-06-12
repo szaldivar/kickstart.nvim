@@ -22,7 +22,7 @@ return {
         vim.lsp.config('pyright', {
           settings = {
             python = {
-              pythonPath = cwd .. '.venv/bin/python',
+              pythonPath = cwd .. '/.venv/bin/python',
             },
           },
         })
