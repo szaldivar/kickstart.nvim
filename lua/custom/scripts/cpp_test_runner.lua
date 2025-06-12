@@ -38,7 +38,6 @@ local find_executable_query = vim.treesitter.query.parse(
 local ns = vim.api.nvim_create_namespace 'cpp_test_runner'
 
 local compile_job_id = nil
-local replace_with = nil
 
 local get_executable_name = function()
   local orig_buf = vim.api.nvim_get_current_buf()
@@ -91,12 +90,10 @@ local compile_tests = function(test_binary_name, callback)
       for _, partial_line in ipairs(data) do
         if partial_line == '' then
           if line:sub(1, 1) == '[' then
-            replace_with = vim.notify(line, vim.log.levels.INFO, {
+            vim.notify(line, vim.log.levels.INFO, {
               title = 'Compiling ' .. test_binary_name,
-              replace = replace_with,
+              id = 'cpp-test-compile',
               keep = function() return should_keep end,
-              max_width = 40,
-              render = 'wrapped-compact',
             })
           end
           line = ''
