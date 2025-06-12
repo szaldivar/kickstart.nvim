@@ -6,6 +6,7 @@ return {
       vim.g.copilot_proxy = vim.g.sz_nvim_http_proxy
       require('copilot').setup {
         suggestion = {
+          auto_trigger = true,
           keymap = {
             accept = false,
             accept_line = '<M-l>',
