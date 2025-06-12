@@ -320,9 +320,9 @@ M.view_test_output = function()
     end
   end
 
-  vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, output)
+  vim.api.nvim_buf_set_lines(out_buf, 0, -1, false, output)
   for _, line in ipairs(test_lines) do
-    vim.hl.range(bufnr, ns, 'CppTestOutputTest', { line - 1, 0 }, { line - 1, -1 })
+    vim.hl.range(out_buf, ns, 'CppTestOutputTest', { line - 1, 0 }, { line - 1, -1 })
   end
 end
 
