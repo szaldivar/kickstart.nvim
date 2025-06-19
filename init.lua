@@ -3,7 +3,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 local env = os.getenv 'NVIM_SZ_ENVIRONMENT'
-if not env or env == '' then vim.notify('env var NVIM_SZ_ENVIRONMENT should be set', 'error') end
+if not env or env == '' then vim.notify('env var NVIM_SZ_ENVIRONMENT should be set', vim.log.levels.ERROR) end
 vim.g.sz_nvim_is_work = env == 'WORK'
 
 if vim.g.sz_nvim_is_work then vim.g.sz_nvim_http_proxy = os.getenv 'NVIM_SZ_HTTP_PROXY' end

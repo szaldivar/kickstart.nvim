@@ -41,7 +41,7 @@ return {
       end, { desc = 'Copy git url' })
 
       snacks.setup {
-        picker = {},
+        picker = { formatters = { file = { truncate = 200 } } },
         input = {},
         notifier = {},
         gitbrowse = {},
