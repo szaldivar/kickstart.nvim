@@ -32,7 +32,7 @@ return {
           },
           review_diff = {
             add_review_comment = { lhs = '<leader>oca', desc = 'add comment' },
-            add_review_suggestion = { lhs = '<leader>oca', desc = 'add suggestion' },
+            add_review_suggestion = { lhs = '<leader>ocs', desc = 'add suggestion' },
             select_next_entry = { lhs = '<tab>', desc = 'move to next changed file' },
             select_prev_entry = { lhs = '<s-tab>', desc = 'move to previous changed file' },
           },
