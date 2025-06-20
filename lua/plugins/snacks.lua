@@ -66,6 +66,7 @@ return {
       { '<leader>sm', function() Snacks.picker.marks() end, desc = 'Marks' },
       { '<leader>sq', function() Snacks.picker.qflist() end, desc = 'Quickfix List' },
       { '<leader>sr', function() Snacks.picker.resume() end, desc = 'Resume' },
+      { '<leader>ss', function() Snacks.picker.git_status() end, desc = 'Git status' },
       -- LSP
       { 'gd', function() Snacks.picker.lsp_definitions() end, desc = 'Goto Definition' },
       { 'gsd', function() lsp_action_on_side(Snacks.picker.lsp_definitions, 'l') end, desc = 'Goto Definition in Side Right' },
